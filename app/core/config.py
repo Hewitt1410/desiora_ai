@@ -29,6 +29,17 @@ class Settings(BaseSettings):
     APPLE_PRIVATE_KEY: Optional[str] = None
     APPLE_REDIRECT_URI: Optional[str] = None
     
+    # AWS S3
+    AWS_ACCESS_KEY_ID: Optional[str] = None
+    AWS_SECRET_ACCESS_KEY: Optional[str] = None
+    AWS_REGION: str = "us-east-1"
+    S3_BUCKET_NAME: Optional[str] = None
+    S3_ENDPOINT_URL: Optional[str] = None  # For S3-compatible services (e.g., DigitalOcean Spaces)
+    
+    # Image Upload
+    MAX_IMAGE_SIZE_MB: int = 10
+    ALLOWED_IMAGE_TYPES: list = ["jpg", "jpeg", "png", "heic"]
+    
     class Config:
         env_file = ".env"
         case_sensitive = True
