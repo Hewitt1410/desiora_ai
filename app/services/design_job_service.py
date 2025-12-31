@@ -148,27 +148,32 @@ class DesignJobService:
 
     async def _process_design(self, job: DesignJob) -> List[str]:
         """
-        Process the design job using AI.
-        This is a placeholder - replace with actual AI service integration.
+        Process the design job using AI worker (Celery task).
         """
-        # Simulate processing delay
-        import asyncio
-        await asyncio.sleep(2)  # Simulate processing time
-
-        # In production, this would:
-        # 1. Call your AI design service (e.g., OpenAI DALL-E, Stable Diffusion, etc.)
-        # 2. Generate design images
-        # 3. Upload results to S3 or storage
-        # 4. Return URLs
-
-        # Placeholder: return mock URLs
-        # Replace this with actual AI processing
-        mock_urls = [
-            f"https://example.com/designs/{job.id}/result_1.jpg",
-            f"https://example.com/designs/{job.id}/result_2.jpg",
-        ]
-
-        return mock_urls
+        from app.core.celery_app import celery_app
+        
+        # Get image URL from parameters or job data
+        image_url = job.parameters.get("image_url") if job.parameters else None
+        if not image_url:
+            raise ValueError("image_url is required in job parameters")
+        
+        # Get style from parameters
+        style = job.parameters.get("style", "modern") if job.parameters else "modern"
+        
+        # Queue Celery task
+        task = celery_app.send_task(
+            "process_room_design",
+            args=[job.id, image_url, style, job.parameters],
+        )
+        
+        # Store queue ID
+        await self.design_job_repo.set_queue_id(job, task.id)
+        
+        # Note: In production, you might want to wait for result or use callbacks
+        # For now, the task will update the job status via database
+        
+        # Return empty list - URLs will be updated by the worker
+        return []
 
     async def retry_failed_jobs(self, limit: int = 10) -> List[DesignJob]:
         """Retry failed jobs that haven't exceeded max retries."""

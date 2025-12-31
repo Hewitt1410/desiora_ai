@@ -40,6 +40,19 @@ class Settings(BaseSettings):
     MAX_IMAGE_SIZE_MB: int = 10
     ALLOWED_IMAGE_TYPES: list = ["jpg", "jpeg", "png", "heic"]
     
+    # Celery
+    CELERY_BROKER_URL: str = "redis://localhost:6379/0"
+    CELERY_RESULT_BACKEND: str = "redis://localhost:6379/0"
+    
+    # AI Worker
+    AI_WORKER_DEVICE: str = "cuda"  # or "cpu"
+    AI_WORKER_MODEL_CACHE_DIR: str = "/app/models"
+    AI_WORKER_OUTPUT_DIR: str = "/app/outputs"
+    
+    # Storage
+    STORAGE_BACKEND: str = "s3"  # or "local"
+    STORAGE_LOCAL_PATH: Optional[str] = None
+    
     class Config:
         env_file = ".env"
         case_sensitive = True
