@@ -1,0 +1,24 @@
+version: '3.8'
+
+# Staging override for docker-compose.yml
+services:
+  backend:
+    environment:
+      - DEBUG=false
+      - ENVIRONMENT=staging
+    command: >
+      sh -c "
+        alembic upgrade head &&
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 2
+      "
+
+  worker:
+    environment:
+      - DEBUG=false
+      - ENVIRONMENT=staging
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 8G
+
