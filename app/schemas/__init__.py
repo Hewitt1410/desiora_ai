@@ -12,6 +12,11 @@ from app.schemas.subscription import (
     CancelSubscriptionRequest,
     CancelSubscriptionResponse,
 )
+from app.schemas.design import (
+    DesignJobCreateRequest,
+    DesignJobResponse,
+    DesignJobListResponse,
+)
 
 __all__ = [
     "UserCreate",
@@ -28,5 +33,8 @@ __all__ = [
     "SubscriptionStatusResponse",
     "CancelSubscriptionRequest",
     "CancelSubscriptionResponse",
+    "DesignJobCreateRequest",
+    "DesignJobResponse",
+    "DesignJobListResponse",
 ]
 

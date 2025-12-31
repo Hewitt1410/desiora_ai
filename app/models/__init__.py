@@ -7,6 +7,7 @@ from app.models.subscription import (
     BillingProvider,
     PLAN_QUOTAS,
 )
+from app.models.design_job import DesignJob, JobStatus
 
 __all__ = [
     "User",
@@ -18,5 +19,7 @@ __all__ = [
     "SubscriptionStatus",
     "BillingProvider",
     "PLAN_QUOTAS",
+    "DesignJob",
+    "JobStatus",
 ]
 
