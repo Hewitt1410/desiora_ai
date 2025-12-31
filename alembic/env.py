@@ -6,7 +6,7 @@ from alembic import context
 import asyncio
 from app.core.config import settings
 from app.core.database import Base
-from app.models import User, Image  # Import all models here
+from app.models import User, Image, Subscription  # Import all models here
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
