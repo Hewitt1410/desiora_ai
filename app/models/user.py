@@ -11,6 +11,12 @@ class OAuthProvider(str, enum.Enum):
     EMAIL = "email"
 
 
+class UserRole(str, enum.Enum):
+    USER = "user"
+    ADMIN = "admin"
+    SUPER_ADMIN = "super_admin"
+
+
 class User(Base):
     __tablename__ = "users"
 
@@ -21,6 +27,7 @@ class User(Base):
     full_name = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
     is_verified = Column(Boolean, default=False)
+    role = Column(SQLEnum(UserRole), default=UserRole.USER, nullable=False, index=True)
     oauth_provider = Column(SQLEnum(OAuthProvider), default=OAuthProvider.EMAIL)
     oauth_id = Column(String, nullable=True)  # OAuth provider user ID
     created_at = Column(DateTime(timezone=True), server_default=func.now())

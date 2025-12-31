@@ -17,6 +17,13 @@ from app.schemas.design import (
     DesignJobResponse,
     DesignJobListResponse,
 )
+from app.schemas.admin import (
+    UserListResponse,
+    SubscriptionListResponse,
+    DesignJobListResponse as AdminDesignJobListResponse,
+    UsageStatsResponse,
+    AdminStatsResponse,
+)
 
 __all__ = [
     "UserCreate",
@@ -36,5 +43,10 @@ __all__ = [
     "DesignJobCreateRequest",
     "DesignJobResponse",
     "DesignJobListResponse",
+    "UserListResponse",
+    "SubscriptionListResponse",
+    "AdminDesignJobListResponse",
+    "UsageStatsResponse",
+    "AdminStatsResponse",
 ]
 

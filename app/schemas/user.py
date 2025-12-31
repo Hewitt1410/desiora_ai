@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import Optional
-from app.models.user import OAuthProvider
+from app.models.user import OAuthProvider, UserRole
 
 
 class UserBase(BaseModel):
@@ -25,6 +25,7 @@ class UserResponse(UserBase):
     id: int
     is_active: bool
     is_verified: bool
+    role: UserRole = UserRole.USER
     oauth_provider: OAuthProvider
     created_at: datetime
     updated_at: Optional[datetime] = None
