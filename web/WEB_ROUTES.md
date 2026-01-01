@@ -275,3 +275,4 @@ https://desiora-ai.com/admin
 3. **Admin access:** Route `/admin` chỉ accessible với role `admin` hoặc `super_admin`
 4. **Dynamic routes:** `/design/[id]` nhận job ID làm parameter
 
+
