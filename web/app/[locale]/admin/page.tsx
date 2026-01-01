@@ -18,14 +18,20 @@ function AdminContent() {
   const { user } = useAuthStore();
   const [stats, setStats] = useState<AdminStatsResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        setError(null);
         const data = await adminApi.getStats();
         setStats(data);
-      } catch (error) {
-        console.error('Failed to fetch stats:', error);
+      } catch (err: any) {
+        console.error('Failed to fetch stats:', err);
+        const errorMessage = err.response?.data?.detail || 
+                            err.message || 
+                            'Failed to load statistics. Please try again.';
+        setError(errorMessage);
       } finally {
         setIsLoading(false);
       }
@@ -42,8 +48,29 @@ function AdminContent() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg shadow-md p-8 max-w-md">
+          <h2 className="text-xl font-semibold text-red-600 mb-4">Error Loading Statistics</h2>
+          <p className="text-gray-700 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (!stats) {
-    return <div>Failed to load statistics</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600">No statistics available</div>
+      </div>
+    );
   }
 
   return (
