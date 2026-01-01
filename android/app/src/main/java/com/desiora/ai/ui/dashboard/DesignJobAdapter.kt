@@ -31,18 +31,25 @@ class DesignJobAdapter(
         private val onItemClick: (DesignJobResponse) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
         
-        private val jobType: TextView = itemView.findViewById(R.id.tvJobType)
-        private val prompt: TextView = itemView.findViewById(R.id.tvPrompt)
-        private val status: TextView = itemView.findViewById(R.id.tvStatus)
-        private val createdAt: TextView = itemView.findViewById(R.id.tvCreatedAt)
+        private val jobType: TextView = itemView.findViewById(R.id.tv_job_type)
+        private val prompt: TextView = itemView.findViewById(R.id.tv_prompt)
+        private val status: TextView = itemView.findViewById(R.id.tv_status)
+        private val createdAt: TextView = itemView.findViewById(R.id.tv_created_at)
         
         fun bind(job: DesignJobResponse) {
             jobType.text = job.jobType.replace("_", " ").capitalize()
             prompt.text = job.prompt
             status.text = job.status.capitalize()
             
-            val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
-            createdAt.text = dateFormat.format(Date(job.createdAt))
+            try {
+                // Parse ISO 8601 date string
+                val isoFormat = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                val date = isoFormat.parse(job.createdAt) ?: Date()
+                val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+                createdAt.text = dateFormat.format(date)
+            } catch (e: Exception) {
+                createdAt.text = job.createdAt
+            }
             
             itemView.setOnClickListener {
                 onItemClick(job)
@@ -60,6 +67,7 @@ class DesignJobAdapter(
         }
     }
 }
+
 
 
 

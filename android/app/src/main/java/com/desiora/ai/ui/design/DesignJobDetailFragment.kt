@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.desiora.ai.databinding.FragmentDesignJobDetailBinding
 import com.desiora.ai.data.storage.TokenStorage
 import com.desiora.ai.ui.viewmodel.DesignJobViewModel
+import com.desiora.ai.ui.viewmodel.DesignJobViewModelFactory
 import com.bumptech.glide.Glide
 
 class DesignJobDetailFragment : Fragment() {
@@ -144,6 +145,7 @@ class DesignJobDetailFragment : Fragment() {
         _binding = null
     }
 }
+
 
 
 

@@ -16,6 +16,7 @@ import com.desiora.ai.databinding.FragmentCreateDesignBinding
 import com.desiora.ai.data.storage.TokenStorage
 import com.desiora.ai.ui.main.MainActivity
 import com.desiora.ai.ui.viewmodel.DesignJobViewModel
+import com.desiora.ai.ui.viewmodel.DesignJobViewModelFactory
 import com.github.dhaval2404.imagepicker.ImagePicker
 import java.io.File
 
@@ -85,7 +86,9 @@ class CreateDesignFragment : Fragment() {
         binding.btnCaptureImage.setOnClickListener {
             ImagePicker.with(this)
                 .cameraOnly()
-                .start(cameraLauncher)
+                .createIntent { intent ->
+                    cameraLauncher.launch(intent)
+                }
         }
         
         binding.btnSubmit.setOnClickListener {
@@ -106,7 +109,9 @@ class CreateDesignFragment : Fragment() {
     private fun showImagePickerOptions() {
         ImagePicker.with(this)
             .galleryOnly()
-            .start(imagePickerLauncher)
+            .createIntent { intent ->
+                imagePickerLauncher.launch(intent)
+            }
     }
     
     private fun uploadImageAndCreateJob(style: String, roomType: String, prompt: String) {
@@ -157,6 +162,7 @@ class CreateDesignFragment : Fragment() {
         _binding = null
     }
 }
+
 
 
 

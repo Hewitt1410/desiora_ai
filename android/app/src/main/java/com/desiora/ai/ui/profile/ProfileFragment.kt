@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.desiora.ai.databinding.FragmentProfileBinding
 import com.desiora.ai.ui.viewmodel.AuthViewModel
+import com.desiora.ai.ui.auth.AuthViewModelFactory
 import com.desiora.ai.utils.ThemeManager
 import androidx.appcompat.app.AlertDialog
 import android.content.Intent
@@ -32,7 +33,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
+        val tokenStorage = com.desiora.ai.data.storage.TokenStorage(requireContext())
+        authViewModel = ViewModelProvider(this, AuthViewModelFactory(tokenStorage))[AuthViewModel::class.java]
         
         setupObservers()
         setupClickListeners()

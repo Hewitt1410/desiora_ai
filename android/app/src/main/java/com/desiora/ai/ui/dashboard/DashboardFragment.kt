@@ -12,6 +12,7 @@ import com.desiora.ai.databinding.FragmentDashboardBinding
 import com.desiora.ai.data.storage.TokenStorage
 import com.desiora.ai.ui.main.MainActivity
 import com.desiora.ai.ui.viewmodel.DesignJobViewModel
+import com.desiora.ai.ui.viewmodel.DesignJobViewModelFactory
 
 class DashboardFragment : Fragment() {
     
@@ -84,6 +85,7 @@ class DesignJobViewModelFactory(private val tokenStorage: TokenStorage) : ViewMo
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
 
 
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Desiora AI</string>
+    <string name="google_client_id"></string>
 </resources>
+
 
