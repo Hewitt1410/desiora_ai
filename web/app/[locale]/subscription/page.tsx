@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import AuthGuard from '@/components/AuthGuard';
+import Navigation from '@/components/Navigation';
 import { subscriptionsApi, SubscriptionStatusResponse } from '@/lib/api/subscriptions';
 import { useAuthStore } from '@/lib/store/auth';
 import { useRouter } from 'next/navigation';

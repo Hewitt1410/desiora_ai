@@ -6,7 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import AuthGuard from '@/components/AuthGuard';
 import { imagesApi } from '@/lib/api/images';
 import { designsApi } from '@/lib/api/designs';
-import axios from 'axios';
+// Using apiClient from lib/api/images instead of direct axios
 
 const DESIGN_STYLES = [
   { value: 'modern', label: 'Modern', description: 'Clean lines, contemporary design' },
@@ -78,8 +78,10 @@ function NewDesignContent() {
         file_size: selectedFile.size,
       });
 
-      // Step 2: Upload to S3
-      await axios.put(presignResponse.upload_url, selectedFile, {
+      // Step 2: Upload to S3 using fetch (no vendor chunk issues)
+      await fetch(presignResponse.upload_url, {
+        method: 'PUT',
+        body: selectedFile,
         headers: {
           'Content-Type': selectedFile.type,
         },

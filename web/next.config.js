@@ -21,6 +21,39 @@ const nextConfig = {
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
+  webpack: (config, { isServer }) => {
+    // Fix for axios vendor chunks issue
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+      
+      // Optimize axios bundling
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          ...config.optimization.splitChunks,
+          cacheGroups: {
+            ...config.optimization.splitChunks.cacheGroups,
+            default: false,
+            vendors: false,
+            // Create a separate chunk for axios
+            axios: {
+              name: 'axios',
+              test: /[\\/]node_modules[\\/]axios[\\/]/,
+              priority: 20,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      };
+    }
+    
+    return config;
+  },
 }
 
 module.exports = withNextIntl(nextConfig);
