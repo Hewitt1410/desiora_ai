@@ -2,47 +2,62 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
+            List {
                 if let user = authViewModel.user {
-                    VStack(spacing: 12) {
-                        Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.blue)
-                        
-                        Text(user.email)
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                        
-                        if let username = user.username {
-                            Text(username)
-                                .foregroundColor(.secondary)
+                    Section {
+                        HStack(spacing: 16) {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 60, height: 60)
+                                .foregroundColor(.blue)
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(user.email)
+                                    .font(.headline)
+                                
+                                if let username = user.username {
+                                    Text(username)
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                                
+                                Text("Role: \(user.role.capitalized)")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
                         }
-                        
-                        Text("Role: \(user.role.capitalized)")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                        .padding(.vertical, 8)
                     }
-                    .padding()
-                    
+                }
+                
+                Section(header: Text("Appearance")) {
+                    Picker("Theme", selection: $themeManager.currentTheme) {
+                        ForEach(AppTheme.allCases, id: \.self) { theme in
+                            Text(theme.displayName).tag(theme)
+                        }
+                    }
+                }
+                
+                Section {
                     Button(action: {
                         authViewModel.logout()
                     }) {
-                        Text("Logout")
-                            .foregroundColor(.red)
-                            .frame(maxWidth: .infinity)
+                        HStack {
+                            Spacer()
+                            Text("Logout")
+                                .foregroundColor(.red)
+                            Spacer()
+                        }
                     }
-                    .buttonStyle(.bordered)
-                    .padding()
                 }
-                
-                Spacer()
             }
             .navigationTitle("Profile")
         }
     }
 }
+
 

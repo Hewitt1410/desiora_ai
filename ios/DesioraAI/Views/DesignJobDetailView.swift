@@ -108,3 +108,4 @@ struct DesignJobDetailView: View {
     }
 }
 
+

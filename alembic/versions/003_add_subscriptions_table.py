@@ -66,3 +66,4 @@ def downgrade() -> None:
     op.execute("DROP TYPE subscriptionstatus")
     op.execute("DROP TYPE subscriptionplan")
 
+

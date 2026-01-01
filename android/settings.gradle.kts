@@ -18,3 +18,4 @@ dependencyResolutionManagement {
 rootProject.name = "DesioraAI"
 include(":app")
 
+

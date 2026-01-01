@@ -51,3 +51,4 @@ class DesignJob(Base):
     # Relationship
     user = relationship("User", backref="design_jobs")
 
+

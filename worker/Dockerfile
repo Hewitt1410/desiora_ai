@@ -45,3 +45,4 @@ ENV AI_WORKER_OUTPUT_DIR=/app/outputs
 # Run Celery worker
 CMD ["celery", "-A", "app.core.celery_app", "worker", "--loglevel=info", "--concurrency=1"]
 
+

@@ -4,6 +4,7 @@ import GoogleSignIn
 @main
 struct DesioraAIApp: App {
     @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var themeManager = ThemeManager()
     
     init() {
         // Configure Google Sign-In
@@ -19,6 +20,8 @@ struct DesioraAIApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(authViewModel)
+                .environmentObject(themeManager)
+                .preferredColorScheme(themeManager.colorScheme)
         }
     }
 }

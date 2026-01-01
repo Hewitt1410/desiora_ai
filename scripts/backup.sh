@@ -44,3 +44,4 @@ ls -t "$BACKUP_DIR"/backup_*.tar.gz | tail -n +8 | xargs -r rm
 
 echo "Backup cleanup completed!"
 
+

@@ -57,3 +57,4 @@ def on_task_failure(sender=None, task_id=None, exception=None, **kwargs):
     # This would need to be passed through task context
     logger.error(f"Task {task_id} failed: {exception}")
 
+

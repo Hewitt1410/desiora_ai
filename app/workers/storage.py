@@ -95,3 +95,4 @@ def _save_to_local(image: Image.Image, path: str) -> str:
         logger.error(f"Failed to save to local storage: {e}")
         raise
 
+

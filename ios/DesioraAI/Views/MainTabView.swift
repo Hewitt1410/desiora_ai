@@ -4,6 +4,7 @@ struct MainTabView: View {
     @StateObject private var designJobViewModel = DesignJobViewModel()
     @StateObject private var subscriptionViewModel = SubscriptionViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var themeManager: ThemeManager
     
     var body: some View {
         TabView {
@@ -27,6 +28,7 @@ struct MainTabView: View {
             
             ProfileView()
                 .environmentObject(authViewModel)
+                .environmentObject(themeManager)
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
                 }
@@ -39,4 +41,5 @@ struct MainTabView: View {
         }
     }
 }
+
 

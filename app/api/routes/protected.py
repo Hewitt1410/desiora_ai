@@ -49,3 +49,4 @@ async def get_user_profile(
     """Get current user's profile (protected route example)."""
     return current_user
 
+

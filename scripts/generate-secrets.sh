@@ -25,3 +25,4 @@ echo "FLOWER_BASIC_AUTH=$FLOWER_USER:$FLOWER_PASSWORD"
 echo ""
 echo "Add these to your .env file or secrets management system"
 
+

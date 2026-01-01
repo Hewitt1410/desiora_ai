@@ -10,12 +10,17 @@ import com.desiora.ai.ui.design.CreateDesignFragment
 import com.desiora.ai.ui.design.DesignJobDetailFragment
 import com.desiora.ai.ui.dashboard.DashboardFragment
 import com.desiora.ai.ui.subscription.SubscriptionFragment
+import com.desiora.ai.ui.profile.ProfileFragment
+import com.desiora.ai.utils.ThemeManager
 
 class MainActivity : AppCompatActivity() {
     
     private lateinit var binding: ActivityMainBinding
     
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Apply theme before setContentView
+        ThemeManager.applyTheme(this)
+        
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -44,6 +49,10 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(SubscriptionFragment())
                     true
                 }
+                R.id.nav_profile -> {
+                    replaceFragment(ProfileFragment())
+                    true
+                }
                 else -> false
             }
         }
@@ -63,4 +72,5 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 }
+
 

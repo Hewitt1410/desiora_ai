@@ -74,3 +74,4 @@ class GooglePlayWebhookEvent(WebhookEvent):
     purchase_token: Optional[str] = None
     product_id: Optional[str] = None
 
+

@@ -14,3 +14,4 @@ async def health_check():
     """Health check endpoint."""
     return HealthResponse(status="healthy", message="Service is running")
 
+

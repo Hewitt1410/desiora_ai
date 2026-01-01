@@ -127,3 +127,4 @@ POST /api/designs
 - View task results: `celery -A app.core.celery_app result <task_id>`
 - Monitor with Flower: `celery -A app.core.celery_app flower`
 
+

@@ -35,3 +35,4 @@ services:
   redis:
     command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
 
+

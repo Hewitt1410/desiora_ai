@@ -79,3 +79,4 @@ class ImageRepository:
         await self.session.delete(image)
         await self.session.commit()
 
+
