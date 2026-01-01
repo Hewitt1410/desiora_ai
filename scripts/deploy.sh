@@ -50,3 +50,4 @@ docker-compose -f docker-compose.yml -f docker-compose.$ENVIRONMENT.yml ps
 echo "Deployment completed!"
 
 
+

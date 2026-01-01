@@ -40,3 +40,4 @@ class DesignJobListResponse(BaseModel):
     page_size: int = 20
 
 
+

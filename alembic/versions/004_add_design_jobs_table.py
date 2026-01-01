@@ -67,3 +67,4 @@ def downgrade() -> None:
     op.execute("DROP TYPE jobstatus")
 
 
+

@@ -45,7 +45,13 @@ app.include_router(admin.router, prefix="/api")
 @app.on_event("startup")
 async def startup():
     """Startup event handler."""
-    pass
+    # Create default admin user if it doesn't exist
+    try:
+        from app.core.seed import create_default_admin
+        await create_default_admin()
+    except Exception as e:
+        # Log error but don't fail startup
+        print(f"Warning: Could not create default admin user: {e}")
 
 
 @app.on_event("shutdown")

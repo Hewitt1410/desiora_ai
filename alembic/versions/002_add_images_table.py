@@ -64,3 +64,4 @@ def downgrade() -> None:
     op.execute("DROP TYPE imagetype")
 
 
+

@@ -58,3 +58,4 @@ def on_task_failure(sender=None, task_id=None, exception=None, **kwargs):
     logger.error(f"Task {task_id} failed: {exception}")
 
 
+
