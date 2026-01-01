@@ -15,6 +15,16 @@ class UserRole(str, enum.Enum):
     USER = "user"
     ADMIN = "admin"
     SUPER_ADMIN = "super_admin"
+    
+    @classmethod
+    def _missing_(cls, value):
+        # Handle case-insensitive matching
+        if isinstance(value, str):
+            value_lower = value.lower()
+            for member in cls:
+                if member.value.lower() == value_lower:
+                    return member
+        return None
 
 
 class User(Base):
@@ -27,8 +37,8 @@ class User(Base):
     full_name = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
     is_verified = Column(Boolean, default=False)
-    role = Column(SQLEnum(UserRole), default=UserRole.USER, nullable=False, index=True)
-    oauth_provider = Column(SQLEnum(OAuthProvider), default=OAuthProvider.EMAIL)
+    role = Column(SQLEnum(UserRole, native_enum=False), default=UserRole.USER, nullable=False, index=True)
+    oauth_provider = Column(SQLEnum(OAuthProvider, native_enum=False), default=OAuthProvider.EMAIL)
     oauth_id = Column(String, nullable=True)  # OAuth provider user ID
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
