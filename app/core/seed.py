@@ -73,10 +73,14 @@ async def ensure_default_admin():
                 elif admin_user.hashed_password:
                     try:
                         # Test if password verification works
-                        verify_password(DEFAULT_ADMIN_PASSWORD, admin_user.hashed_password)
-                    except Exception:
+                        if not verify_password(DEFAULT_ADMIN_PASSWORD, admin_user.hashed_password):
+                            # Password doesn't match, reset it
+                            logger.warning(f"Admin password doesn't match, resetting...")
+                            admin_user.hashed_password = get_password_hash(DEFAULT_ADMIN_PASSWORD)
+                            updated = True
+                    except Exception as e:
                         # Password hash is invalid, reset it
-                        logger.warning(f"Admin password hash invalid, resetting...")
+                        logger.warning(f"Admin password hash invalid ({e}), resetting...")
                         admin_user.hashed_password = get_password_hash(DEFAULT_ADMIN_PASSWORD)
                         updated = True
                 
