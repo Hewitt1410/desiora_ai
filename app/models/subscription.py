@@ -52,7 +52,7 @@ class Subscription(Base):
     ai_jobs_used = Column(BigInteger, default=0, nullable=False)  # Jobs used in current period
     
     # Metadata
-    metadata = Column(String, nullable=True)  # JSON string for additional data
+    subscription_metadata = Column(String, nullable=True)  # JSON string for additional data
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

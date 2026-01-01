@@ -62,7 +62,7 @@ class ImageResponse(BaseModel):
     s3_bucket: str
     s3_url: Optional[str]
     status: ImageStatus
-    metadata: Optional[str]
+    metadata: Optional[str] = Field(None, alias="image_metadata")
     created_at: datetime
     updated_at: Optional[datetime]
 

@@ -104,7 +104,7 @@ async def get_subscriptions(
             ai_job_quota=sub.ai_job_quota,
             ai_jobs_used=sub.ai_jobs_used,
             ai_jobs_remaining=max(0, sub.ai_job_quota - sub.ai_jobs_used),
-            metadata=sub.metadata,
+            subscription_metadata=sub.subscription_metadata,
             created_at=sub.created_at,
             updated_at=sub.updated_at,
         )

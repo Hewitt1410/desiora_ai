@@ -5,7 +5,8 @@ from typing import Optional
 class Settings(BaseSettings):
     # App
     APP_NAME: str = "Desiora AI"
-    DEBUG: bool = False
+    DEBUG: bool = True
+    ENVIRONMENT: str = "development"  # development, staging, production
     
     # Database
     DATABASE_URL: str
@@ -39,6 +40,9 @@ class Settings(BaseSettings):
     # Image Upload
     MAX_IMAGE_SIZE_MB: int = 10
     ALLOWED_IMAGE_TYPES: list = ["jpg", "jpeg", "png", "heic"]
+    
+    # Redis
+    REDIS_URL: str = "redis://localhost:6379/0"
     
     # Celery
     CELERY_BROKER_URL: str = "redis://localhost:6379/0"

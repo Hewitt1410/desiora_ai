@@ -32,7 +32,7 @@ class Image(Base):
     s3_bucket = Column(String, nullable=False)
     s3_url = Column(String, nullable=True)  # Public URL if bucket is public
     status = Column(SQLEnum(ImageStatus), default=ImageStatus.PENDING, nullable=False)
-    metadata = Column(String, nullable=True)  # JSON string for additional metadata
+    image_metadata = Column(String, nullable=True)  # JSON string for additional metadata
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 

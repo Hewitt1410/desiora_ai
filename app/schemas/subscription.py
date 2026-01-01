@@ -23,7 +23,7 @@ class SubscriptionResponse(BaseModel):
     ai_job_quota: int
     ai_jobs_used: int
     ai_jobs_remaining: int
-    metadata: Optional[str]
+    metadata: Optional[str] = Field(None, alias="subscription_metadata")
     created_at: datetime
     updated_at: Optional[datetime]
 

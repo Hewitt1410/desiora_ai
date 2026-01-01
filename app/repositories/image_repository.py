@@ -58,7 +58,7 @@ class ImageRepository:
             s3_key=s3_key,
             s3_bucket=s3_bucket,
             status=ImageStatus.PENDING,
-            metadata=metadata_json,
+            image_metadata=metadata_json,
         )
         self.session.add(image)
         await self.session.commit()

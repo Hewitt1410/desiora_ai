@@ -63,7 +63,7 @@ async def cancel_subscription(
         ai_job_quota=subscription.ai_job_quota,
         ai_jobs_used=subscription.ai_jobs_used,
         ai_jobs_remaining=max(0, subscription.ai_job_quota - subscription.ai_jobs_used),
-        metadata=subscription.metadata,
+        subscription_metadata=subscription.subscription_metadata,
         created_at=subscription.created_at,
         updated_at=subscription.updated_at,
     )

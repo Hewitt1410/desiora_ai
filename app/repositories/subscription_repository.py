@@ -85,13 +85,13 @@ class SubscriptionRepository:
         
         import json
         metadata = {}
-        if subscription.metadata:
+        if subscription.subscription_metadata:
             try:
-                metadata = json.loads(subscription.metadata)
+                metadata = json.loads(subscription.subscription_metadata)
             except:
                 pass
         metadata["cancellation_reason"] = reason
-        subscription.metadata = json.dumps(metadata)
+        subscription.subscription_metadata = json.dumps(metadata)
         
         await self.session.commit()
         await self.session.refresh(subscription)
