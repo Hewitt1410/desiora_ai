@@ -7,6 +7,7 @@ from app.api.routes import subscriptions
 from app.api.routes import webhooks
 from app.api.routes import designs
 from app.api.routes import admin
+from app.api.routes import plans
 
-__all__ = ["auth", "health", "protected", "images", "subscriptions", "webhooks", "designs", "admin"]
+__all__ = ["auth", "health", "protected", "images", "subscriptions", "webhooks", "designs", "admin", "plans"]
 
