@@ -41,16 +41,22 @@ class SubscriptionService:
         
         # Calculate remaining quota
         remaining = max(0, subscription.ai_job_quota - subscription.ai_jobs_used)
+        # Compare status as string since column may be enum or string
+        status_value = subscription.status if isinstance(subscription.status, str) else subscription.status.value
         can_use = (
-            subscription.status == SubscriptionStatus.ACTIVE
+            status_value == SubscriptionStatus.ACTIVE.value
             and remaining > 0
         )
 
+        # Get plan and status as strings (handle both enum and string types)
+        plan_value = subscription.plan if isinstance(subscription.plan, str) else subscription.plan.value
+        status_value = subscription.status if isinstance(subscription.status, str) else subscription.status.value
+        
         subscription_response = SubscriptionResponse(
             id=subscription.id,
             user_id=subscription.user_id,
-            plan=subscription.plan,
-            status=subscription.status,
+            plan=plan_value,
+            status=status_value,
             billing_provider=subscription.billing_provider,
             provider_subscription_id=subscription.provider_subscription_id,
             current_period_start=subscription.current_period_start,
@@ -91,7 +97,9 @@ class SubscriptionService:
                 detail="Subscription not found"
             )
 
-        if subscription.status == SubscriptionStatus.CANCELED:
+        # Check status (handle both enum and string)
+        status_value = subscription.status if isinstance(subscription.status, str) else subscription.status.value
+        if status_value == SubscriptionStatus.CANCELED.value:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Subscription is already canceled"
@@ -104,8 +112,9 @@ class SubscriptionService:
         """Check if user has available quota for AI job."""
         subscription = await self.get_or_create_subscription(user_id)
         
-        # Check if subscription is active
-        if subscription.status != SubscriptionStatus.ACTIVE:
+        # Check if subscription is active (handle both enum and string)
+        status_value = subscription.status if isinstance(subscription.status, str) else subscription.status.value
+        if status_value != SubscriptionStatus.ACTIVE.value:
             return False
         
         # Check if period has expired

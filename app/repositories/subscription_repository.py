@@ -40,6 +40,10 @@ class SubscriptionRepository:
         
         quota = PLAN_QUOTAS.get(plan, {}).get("ai_job_quota", 0)
         
+        # Get enum values as strings
+        plan_value = plan.value if hasattr(plan, 'value') else str(plan)
+        status_value = status.value if hasattr(status, 'value') else str(status)
+        
         # Calculate period dates
         now = datetime.utcnow()
         if period_days:
@@ -57,8 +61,8 @@ class SubscriptionRepository:
 
         subscription = Subscription(
             user_id=user_id,
-            plan=plan,
-            status=status,
+            plan=plan_value,  # Use string value
+            status=status_value,  # Use string value
             billing_provider=billing_provider,
             provider_subscription_id=provider_subscription_id,
             provider_customer_id=provider_customer_id,
