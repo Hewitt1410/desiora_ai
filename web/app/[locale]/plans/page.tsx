@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { plansApi, Plan } from '@/lib/api/plans';
 import Link from 'next/link';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import Navigation from '@/components/Navigation';
 import { Check, AlertCircle, RefreshCw } from 'lucide-react';
 
 export default function PlansPage() {
@@ -17,7 +17,7 @@ export default function PlansPage() {
       setError(null);
       try {
         // Fetch only active plans for public display (use public endpoint)
-        const data = await plansApi.getAll(true, true);
+        const data = await plansApi.getAllPublic(true);
         // Sort by sort_order
         const sortedPlans = data.plans.sort((a, b) => a.sort_order - b.sort_order);
         setPlans(sortedPlans);
@@ -61,42 +61,11 @@ export default function PlansPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <nav className="bg-white dark:bg-gray-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <Link href="/" className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                Desiora AI
-              </Link>
-              <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">
-                Home
-              </Link>
-              <Link href="/plans" className="text-primary-600 dark:text-primary-400 font-semibold">
-                Plans
-              </Link>
-            </div>
-            <div className="flex items-center space-x-4">
-              <ThemeToggle />
-              <Link
-                href="/login"
-                className="px-4 py-2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/register"
-                className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition"
-              >
-                Sign Up
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">
             Choose Your Plan
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">

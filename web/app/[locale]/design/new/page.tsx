@@ -125,17 +125,17 @@ function NewDesignContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <nav className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-primary-600">Desiora AI</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-primary-600 dark:text-primary-400">Desiora AI</h1>
             </div>
             <div className="flex items-center">
               <button
                 onClick={() => router.push('/dashboard')}
-                className="px-4 py-2 text-gray-600 hover:text-gray-900"
+                className="px-3 sm:px-4 py-2 text-sm sm:text-base text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
               >
                 Cancel
               </button>
@@ -144,19 +144,19 @@ function NewDesignContent() {
         </div>
       </nav>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow-md p-8">
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-900">Create New Design</h2>
-              <div className="flex space-x-2">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 lg:p-8">
+          <div className="mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">Create New Design</h2>
+              <div className="flex space-x-2 justify-center sm:justify-end">
+                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm ${step >= 1 ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'}`}>
                   1
                 </div>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm ${step >= 2 ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'}`}>
                   2
                 </div>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-primary-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm ${step >= 3 ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'}`}>
                   3
                 </div>
               </div>
@@ -164,36 +164,36 @@ function NewDesignContent() {
           </div>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+            <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-800 text-red-700 dark:text-red-200 rounded text-sm sm:text-base">
               {error}
             </div>
           )}
 
           {step === 1 && (
             <div>
-              <h3 className="text-xl font-semibold mb-4">Upload Room Image</h3>
+              <h3 className="text-lg sm:text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Upload Room Image</h3>
               <div
                 {...getRootProps()}
-                className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition ${
+                className={`border-2 border-dashed rounded-lg p-8 sm:p-12 text-center cursor-pointer transition ${
                   isDragActive
-                    ? 'border-primary-500 bg-primary-50'
-                    : 'border-gray-300 hover:border-primary-400'
+                    ? 'border-primary-500 dark:border-primary-400 bg-primary-50 dark:bg-primary-900/20'
+                    : 'border-gray-300 dark:border-gray-600 hover:border-primary-400 dark:hover:border-primary-500'
                 }`}
               >
                 <input {...getInputProps()} />
                 {selectedFile ? (
                   <div>
-                    <p className="text-gray-700 mb-2">{selectedFile.name}</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-2 break-all">{selectedFile.name}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                       {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                   </div>
                 ) : (
                   <div>
-                    <p className="text-gray-600 mb-2">
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-2">
                       Drag and drop an image here, or click to select
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500">
                       JPG, PNG, or HEIC up to 10MB
                     </p>
                   </div>
@@ -203,7 +203,7 @@ function NewDesignContent() {
                 <button
                   onClick={handleUpload}
                   disabled={isUploading}
-                  className="mt-4 w-full py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 disabled:opacity-50 transition"
+                  className="mt-4 w-full py-3 sm:py-2.5 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 disabled:opacity-50 transition text-sm sm:text-base"
                 >
                   {isUploading ? 'Uploading...' : 'Upload Image'}
                 </button>
@@ -213,32 +213,32 @@ function NewDesignContent() {
 
           {step === 2 && (
             <div>
-              <h3 className="text-xl font-semibold mb-4">Select Design Style</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <h3 className="text-lg sm:text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Select Design Style</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
                 {DESIGN_STYLES.map((style) => (
                   <button
                     key={style.value}
                     onClick={() => setSelectedStyle(style.value)}
-                    className={`p-4 rounded-lg border-2 transition ${
+                    className={`p-3 sm:p-4 rounded-lg border-2 transition ${
                       selectedStyle === style.value
-                        ? 'border-primary-600 bg-primary-50'
-                        : 'border-gray-200 hover:border-primary-300'
+                        ? 'border-primary-600 dark:border-primary-400 bg-primary-50 dark:bg-primary-900/20'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600'
                     }`}
                   >
-                    <div className="font-semibold text-gray-900">{style.label}</div>
-                    <div className="text-xs text-gray-600 mt-1">{style.description}</div>
+                    <div className="font-semibold text-gray-900 dark:text-gray-100 text-xs sm:text-sm">{style.label}</div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400 mt-1 hidden sm:block">{style.description}</div>
                   </button>
                 ))}
               </div>
 
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Room Type
                 </label>
                 <select
                   value={selectedRoomType}
                   onChange={(e) => setSelectedRoomType(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-4 py-3 sm:py-2 text-base sm:text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500"
                 >
                   {ROOM_TYPES.map((room) => (
                     <option key={room.value} value={room.value}>
@@ -248,15 +248,15 @@ function NewDesignContent() {
                 </select>
               </div>
 
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Additional Prompt (Optional)
                 </label>
                 <textarea
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder="Add any specific requirements or preferences..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-4 py-3 sm:py-2 text-base sm:text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500"
                   rows={4}
                 />
               </div>
@@ -264,7 +264,7 @@ function NewDesignContent() {
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="w-full py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 disabled:opacity-50 transition"
+                className="w-full py-3 sm:py-2.5 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 disabled:opacity-50 transition text-sm sm:text-base"
               >
                 {isSubmitting ? 'Creating Design Job...' : 'Create Design Job'}
               </button>

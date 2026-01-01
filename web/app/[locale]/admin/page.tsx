@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import AuthGuard from '@/components/AuthGuard';
+import Navigation from '@/components/Navigation';
 import { adminApi, AdminStatsResponse } from '@/lib/api/admin';
 import { useAuthStore } from '@/lib/store/auth';
 import Link from 'next/link';
@@ -135,45 +136,45 @@ function AdminContent() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">Total Users</div>
-            <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.users.total}</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
+            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">Total Users</div>
+            <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.users.total}</div>
+            <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
               {stats.users.active} active
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">Total Subscriptions</div>
-            <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.subscriptions.total}</div>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
+            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">Total Subscriptions</div>
+            <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.subscriptions.total}</div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">Total Jobs</div>
-            <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.jobs.total}</div>
-            <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
+            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">Total Jobs</div>
+            <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.jobs.total}</div>
+            <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
               Avg: {stats.jobs.average_per_user.toFixed(1)} per user
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">AI Usage</div>
-            <div className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
+            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">AI Usage</div>
+            <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
               {stats.usage.usage_percentage.toFixed(1)}%
             </div>
-            <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
               {stats.usage.ai_jobs_used} / {stats.usage.ai_jobs_quota}
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Subscriptions by Plan</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">Subscriptions by Plan</h2>
             <div className="space-y-2">
               {Object.entries(stats.subscriptions.by_plan).map(([plan, count]) => (
-                <div key={plan} className="flex justify-between">
+                <div key={plan} className="flex justify-between text-sm sm:text-base">
                   <span className="text-gray-600 dark:text-gray-400 capitalize">{plan}</span>
                   <span className="font-semibold text-gray-900 dark:text-gray-100">{count}</span>
                 </div>
@@ -181,11 +182,11 @@ function AdminContent() {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Jobs by Status</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">Jobs by Status</h2>
             <div className="space-y-2">
               {Object.entries(stats.jobs.by_status).map(([status, count]) => (
-                <div key={status} className="flex justify-between">
+                <div key={status} className="flex justify-between text-sm sm:text-base">
                   <span className="text-gray-600 dark:text-gray-400 capitalize">{status}</span>
                   <span className="font-semibold text-gray-900 dark:text-gray-100">{count}</span>
                 </div>
@@ -194,26 +195,26 @@ function AdminContent() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Top Users by Jobs</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">Top Users by Jobs</h2>
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[300px]">
               <thead>
                 <tr className="border-b dark:border-gray-700">
-                  <th className="text-left py-2 text-gray-600 dark:text-gray-400">User</th>
-                  <th className="text-right py-2 text-gray-600 dark:text-gray-400">Jobs</th>
+                  <th className="text-left py-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">User</th>
+                  <th className="text-right py-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">Jobs</th>
                 </tr>
               </thead>
               <tbody>
                 {stats.usage.top_users.map((topUser) => (
                   <tr key={topUser.user_id} className="border-b dark:border-gray-700">
                     <td className="py-2">
-                      <div className="text-gray-900 dark:text-gray-100">{topUser.email}</div>
+                      <div className="text-sm sm:text-base text-gray-900 dark:text-gray-100 break-all">{topUser.email}</div>
                       {topUser.username && (
-                        <div className="text-sm text-gray-500 dark:text-gray-400">{topUser.username}</div>
+                        <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{topUser.username}</div>
                       )}
                     </td>
-                    <td className="text-right py-2 font-semibold text-gray-900 dark:text-gray-100">{topUser.job_count}</td>
+                    <td className="text-right py-2 font-semibold text-sm sm:text-base text-gray-900 dark:text-gray-100">{topUser.job_count}</td>
                   </tr>
                 ))}
               </tbody>
@@ -222,64 +223,64 @@ function AdminContent() {
         </div>
 
         <div className="mt-6">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link
               href="/admin/plans"
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border-2 border-primary-200 dark:border-primary-800 hover:border-primary-400 dark:hover:border-primary-600"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transition-shadow border-2 border-primary-200 dark:border-primary-800 hover:border-primary-400 dark:hover:border-primary-600"
             >
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Manage Plans</h3>
-                <svg className="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">Manage Plans</h3>
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                 </svg>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 Create, edit, and manage subscription plans
               </p>
             </Link>
             
             <Link
               href="/admin/users"
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transition-shadow"
             >
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Manage Users</h3>
-                <svg className="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">Manage Users</h3>
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 View and manage user accounts
               </p>
             </Link>
             
             <Link
               href="/admin/jobs"
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transition-shadow"
             >
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">View Jobs</h3>
-                <svg className="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">View Jobs</h3>
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 Monitor and manage design jobs
               </p>
             </Link>
             
             <Link
               href="/admin/subscriptions"
-              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transition-shadow"
             >
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Subscriptions</h3>
-                <svg className="w-6 h-6 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100">Subscriptions</h3>
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                 </svg>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 View all user subscriptions
               </p>
             </Link>

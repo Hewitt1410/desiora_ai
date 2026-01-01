@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AuthGuard from '@/components/AuthGuard';
-import { ThemeToggle } from '@/components/ThemeToggle';
+import Navigation from '@/components/Navigation';
 import { designsApi, DesignJobResponse } from '@/lib/api/designs';
 import { useAuthStore } from '@/lib/store/auth';
 import Link from 'next/link';
@@ -40,48 +40,14 @@ function DashboardContent() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <nav className="bg-white dark:bg-gray-800 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <Link href="/" className="text-2xl font-bold text-primary-600">
-                Desiora AI
-              </Link>
-              <Link href="/dashboard" className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">
-                Dashboard
-              </Link>
-              <Link href="/subscription" className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">
-                Subscription
-              </Link>
-              {user?.role === 'admin' || user?.role === 'super_admin' ? (
-                <Link href="/admin" className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400">
-                  Admin
-                </Link>
-              ) : null}
-            </div>
-            <div className="flex items-center">
-              <ThemeToggle />
-              <span className="text-sm text-gray-600 dark:text-gray-400 mr-4 ml-4">{user?.email}</span>
-              <button
-                onClick={() => {
-                  useAuthStore.getState().logout();
-                  router.push('/login');
-                }}
-                className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">My Design Jobs</h1>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">My Design Jobs</h1>
           <Link
             href="/design/new"
-            className="px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition"
+            className="w-full sm:w-auto px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition text-center text-sm sm:text-base"
           >
             Create New Design
           </Link>
@@ -93,45 +59,45 @@ function DashboardContent() {
           </div>
         ) : jobs.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400 mb-4">No design jobs yet</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-4 text-base sm:text-lg">No design jobs yet</p>
             <Link
               href="/design/new"
-              className="inline-block px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition"
+              className="inline-block px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition text-sm sm:text-base"
             >
               Create Your First Design
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {jobs.map((job) => (
               <Link
                 key={job.id}
                 href={`/design/${job.id}`}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-700/50 p-6 hover:shadow-lg transition"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-gray-700/50 p-4 sm:p-6 hover:shadow-lg transition"
               >
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex justify-between items-start mb-3 sm:mb-4">
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    className={`px-2 sm:px-3 py-1 rounded-full text-xs font-semibold ${
                       job.status === 'completed'
-                        ? 'bg-green-100 text-green-800'
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                         : job.status === 'processing'
-                        ? 'bg-blue-100 text-blue-800'
+                        ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200'
                         : job.status === 'failed'
-                        ? 'bg-red-100 text-red-800'
-                        : 'bg-gray-100 text-gray-800'
+                        ? 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
                     }`}
                   >
                     {job.status}
                   </span>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                  <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                     {format(new Date(job.created_at), 'MMM d, yyyy')}
                   </span>
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">{job.job_type}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{job.prompt}</p>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2 text-sm sm:text-base">{job.job_type}</h3>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{job.prompt}</p>
                 {job.result_urls && job.result_urls.length > 0 && (
-                  <div className="mt-4">
-                    <span className="text-sm text-primary-600 font-semibold">
+                  <div className="mt-3 sm:mt-4">
+                    <span className="text-xs sm:text-sm text-primary-600 dark:text-primary-400 font-semibold">
                       {job.result_urls.length} result{job.result_urls.length > 1 ? 's' : ''}
                     </span>
                   </div>

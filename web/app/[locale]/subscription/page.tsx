@@ -97,49 +97,33 @@ function SubscriptionContent() {
   const { subscription: sub, quota_info } = subscription;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <Link href="/" className="text-2xl font-bold text-primary-600">
-                Desiora AI
-              </Link>
-              <Link href="/dashboard" className="text-gray-700 hover:text-primary-600">
-                Dashboard
-              </Link>
-              <Link href="/subscription" className="text-primary-600 font-semibold">
-                Subscription
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <Navigation />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow-md p-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Subscription</h1>
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 lg:p-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 sm:mb-8">Subscription</h1>
 
-          <div className="mb-8">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-gray-900">Current Plan</h2>
+          <div className="mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4 mb-4">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">Current Plan</h2>
               <span
-                className={`px-4 py-2 rounded-full text-sm font-semibold ${
+                className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap ${
                   sub.status === 'active'
-                    ? 'bg-green-100 text-green-800'
+                    ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                     : sub.status === 'canceled'
-                    ? 'bg-gray-100 text-gray-800'
-                    : 'bg-red-100 text-red-800'
+                    ? 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+                    : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200'
                 }`}
               >
                 {sub.status}
               </span>
             </div>
-            <div className="bg-primary-50 rounded-lg p-6">
-              <div className="text-3xl font-bold text-primary-600 mb-2 capitalize">
+            <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4 sm:p-6">
+              <div className="text-2xl sm:text-3xl font-bold text-primary-600 dark:text-primary-400 mb-2 capitalize">
                 {sub.plan} Plan
               </div>
-              <div className="text-gray-600">
+              <div className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                 {sub.current_period_end
                   ? `Renews on ${new Date(sub.current_period_end).toLocaleDateString()}`
                   : 'No active subscription'}

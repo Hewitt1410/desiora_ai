@@ -111,19 +111,20 @@ function PlansContent() {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Subscription Plans</h1>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">Subscription Plans</h1>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2.5 sm:py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition text-sm sm:text-base"
           >
-            <Plus className="h-5 w-5 mr-2" />
+            <Plus className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
             Add Plan
           </button>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+        {/* Desktop Table View */}
+        <div className="hidden lg:block bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
           <table className="w-full">
             <thead className="bg-gray-50 dark:bg-gray-700">
               <tr>
@@ -156,7 +157,7 @@ function PlansContent() {
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">{plan.name}</div>
                     {plan.is_default && (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 mt-1">
                         Default
                       </span>
                     )}
@@ -184,14 +185,16 @@ function PlansContent() {
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button
                       onClick={() => handleEdit(plan)}
-                      className="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300 mr-4"
+                      className="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300 mr-4 p-1"
+                      aria-label="Edit plan"
                     >
                       <Edit className="h-5 w-5" />
                     </button>
                     <button
                       onClick={() => handleDelete(plan.id)}
                       disabled={isDeleting === plan.id || plan.is_default}
-                      className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 disabled:opacity-50 disabled:cursor-not-allowed p-1"
+                      aria-label="Delete plan"
                     >
                       {isDeleting === plan.id ? (
                         <RefreshCw className="h-5 w-5 animate-spin" />
@@ -204,6 +207,77 @@ function PlansContent() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile/Tablet Card View */}
+        <div className="lg:hidden space-y-4">
+          {plans.map((plan) => (
+            <div key={plan.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6">
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                    {plan.display_name}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{plan.name}</p>
+                  {plan.is_default && (
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 mt-2">
+                      Default
+                    </span>
+                  )}
+                </div>
+                <span
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                    plan.is_active
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                      : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                  }`}
+                >
+                  {plan.is_active ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+                <div>
+                  <div className="text-gray-500 dark:text-gray-400">Price</div>
+                  <div className="font-semibold text-gray-900 dark:text-gray-100">
+                    ${parseFloat(plan.price).toFixed(2)} {plan.currency}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-500 dark:text-gray-400">Quota</div>
+                  <div className="font-semibold text-gray-900 dark:text-gray-100">
+                    {plan.ai_job_quota} jobs
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-500 dark:text-gray-400">Period</div>
+                  <div className="font-semibold text-gray-900 dark:text-gray-100">
+                    {plan.period_days} days
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <button
+                  onClick={() => handleEdit(plan)}
+                  className="px-4 py-2 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition text-sm font-medium"
+                >
+                  <Edit className="h-4 w-4 sm:h-5 sm:w-5" />
+                </button>
+                <button
+                  onClick={() => handleDelete(plan.id)}
+                  disabled={isDeleting === plan.id || plan.is_default}
+                  className="px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                >
+                  {isDeleting === plan.id ? (
+                    <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-4 w-4 sm:h-5 sm:w-5" />
+                  )}
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
 
         {showCreateModal && (
