@@ -46,7 +46,8 @@ async def get_admin_user(
     current_user: User = Depends(get_current_user)
 ) -> User:
     """Get current user and verify admin role."""
-    if current_user.role not in [UserRole.ADMIN, UserRole.SUPER_ADMIN]:
+    role_value = current_user.role if isinstance(current_user.role, str) else current_user.role.value
+    if role_value not in [UserRole.ADMIN.value, UserRole.SUPER_ADMIN.value]:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Admin access required"
@@ -58,7 +59,8 @@ async def get_super_admin_user(
     current_user: User = Depends(get_current_user)
 ) -> User:
     """Get current user and verify super admin role."""
-    if current_user.role != UserRole.SUPER_ADMIN:
+    role_value = current_user.role if isinstance(current_user.role, str) else current_user.role.value
+    if role_value != UserRole.SUPER_ADMIN.value:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Super admin access required"

@@ -33,7 +33,8 @@ class AdminService:
         # Apply filters
         conditions = []
         if role:
-            conditions.append(User.role == role)
+            role_value = role.value if hasattr(role, 'value') else role
+            conditions.append(User.role == role_value)
         if is_active is not None:
             conditions.append(User.is_active == is_active)
         

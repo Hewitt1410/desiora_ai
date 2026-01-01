@@ -37,8 +37,8 @@ class User(Base):
     full_name = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
     is_verified = Column(Boolean, default=False)
-    role = Column(SQLEnum(UserRole, native_enum=False), default=UserRole.USER, nullable=False, index=True)
-    oauth_provider = Column(SQLEnum(OAuthProvider, native_enum=False), default=OAuthProvider.EMAIL)
+    role = Column(String, default=UserRole.USER.value, nullable=False, index=True)
+    oauth_provider = Column(String, default=OAuthProvider.EMAIL.value, nullable=True)
     oauth_id = Column(String, nullable=True)  # OAuth provider user ID
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

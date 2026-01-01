@@ -25,7 +25,7 @@ class UserResponse(UserBase):
     id: int
     is_active: bool
     is_verified: bool
-    role: UserRole = UserRole.USER
+    role: str = UserRole.USER.value
     oauth_provider: OAuthProvider
     created_at: datetime
     updated_at: Optional[datetime] = None

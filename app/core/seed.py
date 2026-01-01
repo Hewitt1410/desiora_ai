@@ -45,7 +45,7 @@ async def create_default_admin():
         admin_user = await user_repo.create(admin_data, hashed_password)
         
         # Update role to super_admin and set verified/active
-        admin_user.role = UserRole.SUPER_ADMIN
+        admin_user.role = UserRole.SUPER_ADMIN.value
         admin_user.is_verified = True
         admin_user.is_active = True
         
