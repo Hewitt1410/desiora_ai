@@ -17,6 +17,10 @@ const nextConfig = {
       },
     ],
   },
+  // Disable static optimization for pages that use dynamic features
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 }
 
 module.exports = withNextIntl(nextConfig);

@@ -95,9 +95,21 @@ class ApiClient {
     return response.data;
   }
 
-  async delete<T>(url: string, config?: any): Promise<T> {
-    const response = await this.client.delete<T>(url, config);
-    return response.data;
+  async delete<T = void>(url: string, config?: any): Promise<T> {
+    try {
+      const response = await this.client.delete<T>(url, config);
+      // Handle 204 No Content responses
+      if (response.status === 204 || response.data === undefined || response.data === null) {
+        return undefined as T;
+      }
+      return response.data;
+    } catch (error) {
+      // If it's a 204 response, that's actually success
+      if ((error as any)?.response?.status === 204) {
+        return undefined as T;
+      }
+      throw error;
+    }
   }
 }
 
