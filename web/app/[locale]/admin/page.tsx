@@ -72,6 +72,39 @@ function AdminContent() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Admin Dashboard</h1>
 
+        {/* Default Admin Account Info */}
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold text-yellow-900 dark:text-yellow-200 mb-4">
+            🔐 Default Admin Account
+          </h2>
+          <div className="space-y-2 text-sm">
+            <div className="flex items-center space-x-2">
+              <span className="font-medium text-yellow-800 dark:text-yellow-300">Email:</span>
+              <code className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/50 rounded text-yellow-900 dark:text-yellow-200">
+                admin@desiora.ai
+              </code>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="font-medium text-yellow-800 dark:text-yellow-300">Password:</span>
+              <code className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/50 rounded text-yellow-900 dark:text-yellow-200">
+                admin123
+              </code>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="font-medium text-yellow-800 dark:text-yellow-300">Role:</span>
+              <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/50 rounded text-yellow-900 dark:text-yellow-200">
+                super_admin
+              </span>
+            </div>
+            <div className="mt-4 pt-4 border-t border-yellow-200 dark:border-yellow-800">
+              <p className="text-yellow-800 dark:text-yellow-300 text-xs">
+                ⚠️ <strong>Security Notice:</strong> This is the default admin account. 
+                Please change the password after first login for security purposes.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="text-sm text-gray-600 mb-2">Total Users</div>
