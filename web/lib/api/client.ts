@@ -33,13 +33,29 @@ class ApiClient {
     this.client.interceptors.response.use(
       (response) => response,
       (error: AxiosError<ApiError>) => {
+        // Log error for debugging
+        if (error.response) {
+          console.error('API Error:', {
+            status: error.response.status,
+            data: error.response.data,
+            url: error.config?.url,
+          });
+        } else if (error.request) {
+          console.error('Network Error:', {
+            message: error.message,
+            url: error.config?.url,
+          });
+        }
+
+        // Handle 401 Unauthorized
         if (error.response?.status === 401) {
-          // Unauthorized - clear token and redirect to login
-          this.clearToken();
-          if (typeof window !== 'undefined') {
+          // Don't redirect if we're already on login page
+          if (typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
+            this.clearToken();
             window.location.href = '/login';
           }
         }
+
         return Promise.reject(error);
       }
     );

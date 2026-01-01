@@ -25,12 +25,17 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (email: string, password: string) => {
     set({ isLoading: true });
     try {
-      await authApi.login({ email, password });
+      const tokenResponse = await authApi.login({ email, password });
+      // Token is automatically stored by apiClient.setToken
       const user = await authApi.getMe();
       set({ user, isAuthenticated: true, isLoading: false });
-    } catch (error) {
+    } catch (error: any) {
       set({ isLoading: false });
-      throw error;
+      // Re-throw with better error message
+      const errorMessage = error.response?.data?.detail || 
+                          error.message || 
+                          'Login failed. Please check your credentials.';
+      throw new Error(errorMessage);
     }
   },
 

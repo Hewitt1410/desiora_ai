@@ -18,19 +18,29 @@ export default function LoginPage() {
     setError('');
     try {
       await login(email, password);
+      // Redirect based on user role
       router.push('/dashboard');
     } catch (err: any) {
       console.error('Login error:', err);
-      // Better error handling
-      if (err.code === 'ECONNREFUSED' || err.message?.includes('Network Error')) {
-        setError('Cannot connect to server. Please make sure the backend server is running on http://localhost:8000');
+      
+      // Better error handling with specific messages
+      let errorMessage = 'Login failed. Please check your credentials and try again.';
+      
+      if (err.code === 'ECONNREFUSED' || err.message?.includes('Network Error') || err.message?.includes('ECONNREFUSED')) {
+        errorMessage = 'Cannot connect to server. Please make sure the backend server is running on http://localhost:8000';
       } else if (err.response?.data?.detail) {
-        setError(err.response.data.detail);
+        errorMessage = err.response.data.detail;
       } else if (err.message) {
-        setError(err.message);
-      } else {
-        setError('Login failed. Please check your credentials and try again.');
+        errorMessage = err.message;
+      } else if (err.response?.status === 401) {
+        errorMessage = 'Invalid email or password. Please try again.';
+      } else if (err.response?.status === 403) {
+        errorMessage = 'Your account is inactive. Please contact support.';
+      } else if (err.response?.status >= 500) {
+        errorMessage = 'Server error. Please try again later.';
       }
+      
+      setError(errorMessage);
     }
   };
 
