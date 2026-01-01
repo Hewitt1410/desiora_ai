@@ -22,13 +22,20 @@ function SubscriptionContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCanceling, setIsCanceling] = useState(false);
 
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchSubscription = async () => {
       try {
+        setError(null);
         const data = await subscriptionsApi.getStatus();
         setSubscription(data);
-      } catch (error) {
-        console.error('Failed to fetch subscription:', error);
+      } catch (err: any) {
+        console.error('Failed to fetch subscription:', err);
+        const errorMessage = err.response?.data?.detail || 
+                            err.message || 
+                            'Failed to load subscription. Please try again.';
+        setError(errorMessage);
       } finally {
         setIsLoading(false);
       }
@@ -48,6 +55,7 @@ function SubscriptionContent() {
       setSubscription(data);
     } catch (error) {
       console.error('Failed to cancel subscription:', error);
+      alert('Failed to cancel subscription. Please try again.');
     } finally {
       setIsCanceling(false);
     }
@@ -61,8 +69,29 @@ function SubscriptionContent() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg shadow-md p-8 max-w-md">
+          <h2 className="text-xl font-semibold text-red-600 mb-4">Error Loading Subscription</h2>
+          <p className="text-gray-700 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (!subscription) {
-    return <div>Failed to load subscription</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600">No subscription data available</div>
+      </div>
+    );
   }
 
   const { subscription: sub, quota_info } = subscription;
