@@ -1,20 +1,11 @@
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+import bcrypt
 from app.core.config import settings
 
-# Configure password context with bcrypt
-# Use bcryptor backend to avoid version detection issues
-try:
-    pwd_context = CryptContext(
-        schemes=["bcrypt"],
-        deprecated="auto",
-        bcrypt__ident="2b",  # Use bcrypt 2b format
-    )
-except Exception:
-    # Fallback if configuration fails
-    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Use bcrypt directly instead of passlib to avoid compatibility issues
+# with bcrypt 5.0.0 and passlib 1.7.4
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -24,12 +15,14 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     
     # Bcrypt has a 72-byte limit, truncate if necessary
     # This is safe because we control password length during registration
-    if len(plain_password.encode('utf-8')) > 72:
-        plain_password = plain_password[:72]
+    password_bytes = plain_password.encode('utf-8')
+    if len(password_bytes) > 72:
+        password_bytes = password_bytes[:72]
     
     try:
-        return pwd_context.verify(plain_password, hashed_password)
-    except (ValueError, TypeError) as e:
+        # Use bcrypt directly
+        return bcrypt.checkpw(password_bytes, hashed_password.encode('utf-8'))
+    except (ValueError, TypeError, Exception) as e:
         # Handle invalid hash or other errors
         print(f"Password verification error: {e}")
         return False
@@ -42,10 +35,14 @@ def get_password_hash(password: str) -> str:
     
     # Bcrypt has a 72-byte limit, truncate if necessary
     # This is safe because we control password length during registration
-    if len(password.encode('utf-8')) > 72:
-        password = password[:72]
+    password_bytes = password.encode('utf-8')
+    if len(password_bytes) > 72:
+        password_bytes = password_bytes[:72]
     
-    return pwd_context.hash(password)
+    # Generate salt and hash password
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password_bytes, salt)
+    return hashed.decode('utf-8')
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
