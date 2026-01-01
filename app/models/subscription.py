@@ -33,11 +33,11 @@ class Subscription(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False, unique=True, index=True)
-    plan = Column(SQLEnum(SubscriptionPlan), default=SubscriptionPlan.FREE, nullable=False)
-    status = Column(SQLEnum(SubscriptionStatus), default=SubscriptionStatus.ACTIVE, nullable=False)
+    plan = Column(String, default=SubscriptionPlan.FREE.value, nullable=False)
+    status = Column(String, default=SubscriptionStatus.ACTIVE.value, nullable=False)
     
     # Billing information
-    billing_provider = Column(SQLEnum(BillingProvider), nullable=True)
+    billing_provider = Column(String, nullable=True)
     provider_subscription_id = Column(String, nullable=True, index=True)  # Stripe subscription ID, etc.
     provider_customer_id = Column(String, nullable=True)  # Stripe customer ID, etc.
     

@@ -145,18 +145,22 @@ class AdminService:
         # Subscriptions by plan
         subscriptions_by_plan = {}
         for plan in SubscriptionPlan:
+            plan_value = plan.value
+            # Compare with string value since column is stored as string
             count_result = await self.session.execute(
-                select(func.count()).select_from(Subscription).where(Subscription.plan == plan)
+                select(func.count()).select_from(Subscription).where(Subscription.plan == plan_value)
             )
-            subscriptions_by_plan[plan.value] = count_result.scalar_one()
+            subscriptions_by_plan[plan_value] = count_result.scalar_one()
         
         # Subscriptions by status
         subscriptions_by_status = {}
         for sub_status in SubscriptionStatus:
+            status_value = sub_status.value
+            # Compare with string value since column is stored as string
             count_result = await self.session.execute(
-                select(func.count()).select_from(Subscription).where(Subscription.status == sub_status)
+                select(func.count()).select_from(Subscription).where(Subscription.status == status_value)
             )
-            subscriptions_by_status[sub_status.value] = count_result.scalar_one()
+            subscriptions_by_status[status_value] = count_result.scalar_one()
         
         # Job statistics
         total_jobs_result = await self.session.execute(
@@ -167,10 +171,12 @@ class AdminService:
         # Jobs by status
         jobs_by_status = {}
         for job_status in JobStatus:
+            status_value = job_status.value
+            # Compare with string value since column is stored as string
             count_result = await self.session.execute(
-                select(func.count()).select_from(DesignJob).where(DesignJob.status == job_status)
+                select(func.count()).select_from(DesignJob).where(DesignJob.status == status_value)
             )
-            jobs_by_status[job_status.value] = count_result.scalar_one()
+            jobs_by_status[status_value] = count_result.scalar_one()
         
         # AI jobs usage statistics
         total_ai_jobs_used_result = await self.session.execute(
