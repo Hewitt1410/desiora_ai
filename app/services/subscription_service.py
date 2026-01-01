@@ -34,10 +34,22 @@ class SubscriptionService:
         subscription = await self.get_or_create_subscription(user_id)
         
         # Check if subscription period has expired
-        if subscription.current_period_end and subscription.current_period_end < datetime.utcnow():
-            if subscription.status == SubscriptionStatus.ACTIVE:
-                subscription.status = SubscriptionStatus.EXPIRED
-                await self.subscription_repo.update(subscription)
+        if subscription.current_period_end:
+            # Make datetime timezone-aware for comparison
+            now = datetime.now(timezone.utc)
+            period_end = subscription.current_period_end
+            # Ensure period_end is timezone-aware
+            if period_end.tzinfo is None:
+                period_end = period_end.replace(tzinfo=timezone.utc)
+            elif period_end.tzinfo != timezone.utc:
+                period_end = period_end.astimezone(timezone.utc)
+            
+            if period_end < now:
+                # Compare status as string since column may be enum or string
+                status_value = subscription.status if isinstance(subscription.status, str) else subscription.status.value
+                if status_value == SubscriptionStatus.ACTIVE.value:
+                    subscription.status = SubscriptionStatus.EXPIRED.value
+                    await self.subscription_repo.update(subscription)
         
         # Calculate remaining quota
         remaining = max(0, subscription.ai_job_quota - subscription.ai_jobs_used)
@@ -159,11 +171,13 @@ class SubscriptionService:
             return None
 
         if status:
-            subscription.status = status
+            status_value = status.value if hasattr(status, 'value') else str(status)
+            subscription.status = status_value
         if plan:
             from app.models.subscription import PLAN_QUOTAS
             quota = PLAN_QUOTAS.get(plan, {}).get("ai_job_quota", 0)
-            subscription.plan = plan
+            plan_value = plan.value if hasattr(plan, 'value') else str(plan)
+            subscription.plan = plan_value
             subscription.ai_job_quota = quota
         if period_end:
             subscription.current_period_end = period_end
