@@ -19,8 +19,14 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    # Create enum type for OAuth provider
-    op.execute("CREATE TYPE oauthprovider AS ENUM ('google', 'apple', 'email')")
+    # Create enum type for OAuth provider (only if it doesn't exist)
+    op.execute("""
+        DO $$ BEGIN
+            CREATE TYPE oauthprovider AS ENUM ('google', 'apple', 'email');
+        EXCEPTION
+            WHEN duplicate_object THEN null;
+        END $$;
+    """)
     
     # Create users table
     op.create_table(
@@ -32,7 +38,7 @@ def upgrade() -> None:
         sa.Column('full_name', sa.String(), nullable=True),
         sa.Column('is_active', sa.Boolean(), nullable=True, server_default='true'),
         sa.Column('is_verified', sa.Boolean(), nullable=True, server_default='false'),
-        sa.Column('oauth_provider', postgresql.ENUM('google', 'apple', 'email', name='oauthprovider', create_type=True), nullable=True, server_default='email'),
+        sa.Column('oauth_provider', postgresql.ENUM('google', 'apple', 'email', name='oauthprovider', create_type=False), nullable=True, server_default='email'),
         sa.Column('oauth_id', sa.String(), nullable=True),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
         sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),

@@ -19,9 +19,21 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    # Create enum types for images
-    op.execute("CREATE TYPE imagetype AS ENUM ('jpg', 'jpeg', 'png', 'heic')")
-    op.execute("CREATE TYPE imagestatus AS ENUM ('pending', 'uploaded', 'failed')")
+    # Create enum types for images (only if they don't exist)
+    op.execute("""
+        DO $$ BEGIN
+            CREATE TYPE imagetype AS ENUM ('jpg', 'jpeg', 'png', 'heic');
+        EXCEPTION
+            WHEN duplicate_object THEN null;
+        END $$;
+    """)
+    op.execute("""
+        DO $$ BEGIN
+            CREATE TYPE imagestatus AS ENUM ('pending', 'uploaded', 'failed');
+        EXCEPTION
+            WHEN duplicate_object THEN null;
+        END $$;
+    """)
     
     # Create images table
     op.create_table(

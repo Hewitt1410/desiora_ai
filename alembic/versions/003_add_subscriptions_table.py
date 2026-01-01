@@ -19,10 +19,28 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    # Create enum types for subscriptions
-    op.execute("CREATE TYPE subscriptionplan AS ENUM ('weekly', 'monthly', 'yearly', 'free')")
-    op.execute("CREATE TYPE subscriptionstatus AS ENUM ('active', 'canceled', 'expired', 'trial', 'past_due')")
-    op.execute("CREATE TYPE billingprovider AS ENUM ('stripe', 'app_store', 'google_play', 'manual')")
+    # Create enum types for subscriptions (only if they don't exist)
+    op.execute("""
+        DO $$ BEGIN
+            CREATE TYPE subscriptionplan AS ENUM ('weekly', 'monthly', 'yearly', 'free');
+        EXCEPTION
+            WHEN duplicate_object THEN null;
+        END $$;
+    """)
+    op.execute("""
+        DO $$ BEGIN
+            CREATE TYPE subscriptionstatus AS ENUM ('active', 'canceled', 'expired', 'trial', 'past_due');
+        EXCEPTION
+            WHEN duplicate_object THEN null;
+        END $$;
+    """)
+    op.execute("""
+        DO $$ BEGIN
+            CREATE TYPE billingprovider AS ENUM ('stripe', 'app_store', 'google_play', 'manual');
+        EXCEPTION
+            WHEN duplicate_object THEN null;
+        END $$;
+    """)
     
     # Create subscriptions table
     op.create_table(

@@ -19,8 +19,14 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    # Create enum type for job status
-    op.execute("CREATE TYPE jobstatus AS ENUM ('pending', 'processing', 'completed', 'failed', 'retrying')")
+    # Create enum type for job status (only if it doesn't exist)
+    op.execute("""
+        DO $$ BEGIN
+            CREATE TYPE jobstatus AS ENUM ('pending', 'processing', 'completed', 'failed', 'retrying');
+        EXCEPTION
+            WHEN duplicate_object THEN null;
+        END $$;
+    """)
     
     # Create design_jobs table
     op.create_table(
