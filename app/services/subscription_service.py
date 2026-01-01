@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional
-from datetime import datetime
+from datetime import datetime, timezone
 from app.repositories.subscription_repository import SubscriptionRepository
 from app.models.subscription import (
     Subscription,
@@ -118,8 +118,13 @@ class SubscriptionService:
             return False
         
         # Check if period has expired
-        if subscription.current_period_end and subscription.current_period_end < datetime.utcnow():
-            return False
+        if subscription.current_period_end:
+            now = datetime.now(timezone.utc)
+            period_end = subscription.current_period_end
+            if period_end.tzinfo is None:
+                period_end = period_end.replace(tzinfo=timezone.utc)
+            if period_end < now:
+                return False
         
         # Check quota
         remaining = subscription.ai_job_quota - subscription.ai_jobs_used

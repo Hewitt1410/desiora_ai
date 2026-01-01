@@ -45,7 +45,7 @@ class SubscriptionRepository:
         status_value = status.value if hasattr(status, 'value') else str(status)
         
         # Calculate period dates
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         if period_days:
             period_end = now + timedelta(days=period_days)
         else:
@@ -84,8 +84,8 @@ class SubscriptionRepository:
 
     async def cancel(self, subscription: Subscription, reason: Optional[str] = None) -> Subscription:
         """Cancel subscription."""
-        subscription.status = SubscriptionStatus.CANCELED
-        subscription.canceled_at = datetime.utcnow()
+        subscription.status = SubscriptionStatus.CANCELED.value
+        subscription.canceled_at = datetime.now(timezone.utc)
         
         import json
         metadata = {}
@@ -114,7 +114,7 @@ class SubscriptionRepository:
         
         quota = PLAN_QUOTAS.get(subscription.plan, {}).get("ai_job_quota", 0)
         
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         if period_days:
             period_end = now + timedelta(days=period_days)
         else:
