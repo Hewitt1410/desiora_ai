@@ -117,3 +117,4 @@ source venv/bin/activate
 python -c "from app.core.seed import create_default_admin; import asyncio; asyncio.run(create_default_admin())"
 ```
 
+

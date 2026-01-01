@@ -88,6 +88,9 @@ function AdminContent() {
               <Link href="/admin" className="text-primary-600 font-semibold">
                 Admin
               </Link>
+              <Link href="/admin/plans" className="text-gray-700 hover:text-primary-600">
+                Plans
+              </Link>
             </div>
             <div className="flex items-center">
               <span className="text-sm text-gray-600 mr-4">{user?.email}</span>

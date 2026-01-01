@@ -147,3 +147,4 @@ class DesignJobDetailFragment : Fragment() {
 
 
 
+

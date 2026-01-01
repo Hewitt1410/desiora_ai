@@ -137,3 +137,4 @@ def load_upscaler_model(device: str = "cuda", cache_dir: Path = None) -> Optiona
 
 
 
+

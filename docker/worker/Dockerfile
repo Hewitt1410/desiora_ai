@@ -63,3 +63,4 @@ CMD ["celery", "-A", "app.workers.celery_app", "worker", "--loglevel=info", "--c
 
 
 
+

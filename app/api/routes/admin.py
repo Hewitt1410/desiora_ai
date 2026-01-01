@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional
 from app.core.database import get_db
@@ -10,6 +10,8 @@ from app.schemas.admin import (
     UsageStatsResponse,
     AdminStatsResponse,
 )
+from app.schemas.plan import PlanCreate, PlanUpdate, PlanResponse, PlanListResponse
+from app.services.plan_service import PlanService
 from app.schemas.user import UserResponse
 from app.schemas.subscription import SubscriptionResponse
 from app.schemas.design import DesignJobResponse
@@ -206,4 +208,146 @@ async def get_usage_stats(
     stats = await admin_service.get_usage_statistics()
     
     return UsageStatsResponse(**stats)
+
+
+# Plan Management Endpoints
+@router.get("/plans", response_model=PlanListResponse)
+async def get_plans(
+    active_only: bool = Query(False, description="Filter active plans only"),
+    admin_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Get all subscription plans (Admin only).
+    """
+    plan_service = PlanService(db)
+    plans = await plan_service.get_all_plans(active_only=active_only)
+    
+    plan_responses = [
+        PlanResponse(
+            id=plan.id,
+            name=plan.name,
+            display_name=plan.display_name,
+            description=plan.description,
+            price=plan.price,
+            currency=plan.currency,
+            ai_job_quota=plan.ai_job_quota,
+            period_days=plan.period_days,
+            is_active=plan.is_active,
+            is_default=plan.is_default,
+            sort_order=plan.sort_order,
+            features=plan.features,
+            created_at=plan.created_at,
+            updated_at=plan.updated_at,
+        )
+        for plan in plans
+    ]
+    
+    return PlanListResponse(plans=plan_responses, total=len(plan_responses))
+
+
+@router.get("/plans/{plan_id}", response_model=PlanResponse)
+async def get_plan(
+    plan_id: int,
+    admin_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Get a specific plan by ID (Admin only).
+    """
+    plan_service = PlanService(db)
+    plan = await plan_service.get_plan_by_id(plan_id)
+    
+    return PlanResponse(
+        id=plan.id,
+        name=plan.name,
+        display_name=plan.display_name,
+        description=plan.description,
+        price=plan.price,
+        currency=plan.currency,
+        ai_job_quota=plan.ai_job_quota,
+        period_days=plan.period_days,
+        is_active=plan.is_active,
+        is_default=plan.is_default,
+        sort_order=plan.sort_order,
+        features=plan.features,
+        created_at=plan.created_at,
+        updated_at=plan.updated_at,
+    )
+
+
+@router.post("/plans", response_model=PlanResponse, status_code=status.HTTP_201_CREATED)
+async def create_plan(
+    plan_data: PlanCreate,
+    admin_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Create a new subscription plan (Admin only).
+    """
+    plan_service = PlanService(db)
+    plan = await plan_service.create_plan(plan_data)
+    
+    return PlanResponse(
+        id=plan.id,
+        name=plan.name,
+        display_name=plan.display_name,
+        description=plan.description,
+        price=plan.price,
+        currency=plan.currency,
+        ai_job_quota=plan.ai_job_quota,
+        period_days=plan.period_days,
+        is_active=plan.is_active,
+        is_default=plan.is_default,
+        sort_order=plan.sort_order,
+        features=plan.features,
+        created_at=plan.created_at,
+        updated_at=plan.updated_at,
+    )
+
+
+@router.put("/plans/{plan_id}", response_model=PlanResponse)
+async def update_plan(
+    plan_id: int,
+    plan_data: PlanUpdate,
+    admin_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Update a subscription plan (Admin only).
+    """
+    plan_service = PlanService(db)
+    plan = await plan_service.update_plan(plan_id, plan_data)
+    
+    return PlanResponse(
+        id=plan.id,
+        name=plan.name,
+        display_name=plan.display_name,
+        description=plan.description,
+        price=plan.price,
+        currency=plan.currency,
+        ai_job_quota=plan.ai_job_quota,
+        period_days=plan.period_days,
+        is_active=plan.is_active,
+        is_default=plan.is_default,
+        sort_order=plan.sort_order,
+        features=plan.features,
+        created_at=plan.created_at,
+        updated_at=plan.updated_at,
+    )
+
+
+@router.delete("/plans/{plan_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_plan(
+    plan_id: int,
+    admin_user: User = Depends(get_admin_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Delete a subscription plan (Admin only).
+    """
+    from fastapi import status
+    plan_service = PlanService(db)
+    await plan_service.delete_plan(plan_id)
+    return None
 
