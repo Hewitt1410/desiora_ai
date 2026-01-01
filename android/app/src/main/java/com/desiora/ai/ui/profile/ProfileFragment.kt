@@ -50,7 +50,7 @@ class ProfileFragment : Fragment() {
     }
     
     private fun setupClickListeners() {
-        binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
+        binding.switchTheme.setOnCheckedChangeListener { _: android.widget.CompoundButton, isChecked: Boolean ->
             val mode = if (isChecked) ThemeManager.ThemeMode.DARK else ThemeManager.ThemeMode.LIGHT
             ThemeManager.setThemeMode(requireContext(), mode)
             requireActivity().recreate() // Recreate activity to apply theme
@@ -69,12 +69,14 @@ class ProfileFragment : Fragment() {
     
     private fun updateThemeToggle() {
         val currentMode = ThemeManager.getThemeMode(requireContext())
-        binding.switchTheme.isChecked = currentMode == ThemeManager.ThemeMode.DARK
-        binding.tvThemeMode.text = when (currentMode) {
+        val isDarkMode = (currentMode == ThemeManager.ThemeMode.DARK)
+        binding.switchTheme.isChecked = isDarkMode
+        val themeText = when (currentMode) {
             ThemeManager.ThemeMode.LIGHT -> "Light Mode"
             ThemeManager.ThemeMode.DARK -> "Dark Mode"
             ThemeManager.ThemeMode.SYSTEM -> "System Default"
         }
+        binding.tvThemeMode.text = themeText
     }
     
     private fun showLogoutDialog() {

@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun setupBottomNavigation() {
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
+        binding.bottomNavigation.setOnItemSelectedListener { item: android.view.MenuItem ->
             when (item.itemId) {
                 R.id.nav_dashboard -> {
                     replaceFragment(DashboardFragment())
