@@ -20,7 +20,17 @@ export default function LoginPage() {
       await login(email, password);
       router.push('/dashboard');
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Login failed');
+      console.error('Login error:', err);
+      // Better error handling
+      if (err.code === 'ECONNREFUSED' || err.message?.includes('Network Error')) {
+        setError('Cannot connect to server. Please make sure the backend server is running on http://localhost:8000');
+      } else if (err.response?.data?.detail) {
+        setError(err.response.data.detail);
+      } else if (err.message) {
+        setError(err.message);
+      } else {
+        setError('Login failed. Please check your credentials and try again.');
+      }
     }
   };
 
