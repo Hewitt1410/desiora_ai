@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.middleware import AuthenticationMiddleware
-from app.api.routes import auth, health, protected, images, subscriptions, webhooks, designs, admin
+from app.api.routes import auth, health, protected, images, subscriptions, webhooks, designs, admin, plans
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -40,6 +40,7 @@ app.include_router(subscriptions.router, prefix="/api")
 app.include_router(webhooks.router, prefix="/api")
 app.include_router(designs.router, prefix="/api")
 app.include_router(admin.router, prefix="/api")
+app.include_router(plans.router, prefix="/api")
 
 
 @app.on_event("startup")
