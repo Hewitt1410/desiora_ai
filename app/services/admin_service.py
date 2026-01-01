@@ -146,9 +146,12 @@ class AdminService:
         subscriptions_by_plan = {}
         for plan in SubscriptionPlan:
             plan_value = plan.value
-            # Compare with string value since column is stored as string
+            # Cast enum to text for comparison (database may still use enum type)
+            from sqlalchemy import cast, String as SQLString
             count_result = await self.session.execute(
-                select(func.count()).select_from(Subscription).where(Subscription.plan == plan_value)
+                select(func.count()).select_from(Subscription).where(
+                    cast(Subscription.plan, SQLString) == plan_value
+                )
             )
             subscriptions_by_plan[plan_value] = count_result.scalar_one()
         
@@ -156,9 +159,12 @@ class AdminService:
         subscriptions_by_status = {}
         for sub_status in SubscriptionStatus:
             status_value = sub_status.value
-            # Compare with string value since column is stored as string
+            # Cast enum to text for comparison
+            from sqlalchemy import cast, String as SQLString
             count_result = await self.session.execute(
-                select(func.count()).select_from(Subscription).where(Subscription.status == status_value)
+                select(func.count()).select_from(Subscription).where(
+                    cast(Subscription.status, SQLString) == status_value
+                )
             )
             subscriptions_by_status[status_value] = count_result.scalar_one()
         
@@ -172,9 +178,12 @@ class AdminService:
         jobs_by_status = {}
         for job_status in JobStatus:
             status_value = job_status.value
-            # Compare with string value since column is stored as string
+            # Cast enum to text for comparison (database may still use enum type)
+            from sqlalchemy import cast, String as SQLString
             count_result = await self.session.execute(
-                select(func.count()).select_from(DesignJob).where(DesignJob.status == status_value)
+                select(func.count()).select_from(DesignJob).where(
+                    cast(DesignJob.status, SQLString) == status_value
+                )
             )
             jobs_by_status[status_value] = count_result.scalar_one()
         
